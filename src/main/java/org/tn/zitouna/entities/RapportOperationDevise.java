@@ -18,9 +18,9 @@ public class RapportOperationDevise {
 	@NonNull @Id
 	private Long numeroDeclaration;
 	private  int codeEnregistrement = 910;
-	private char codeOperation ;
+	private String codeOperation ;
 	@Field(name = "TYPDOC")
-	private char typeIdentifiantClient;
+	private String typeIdentifiantClient;
 	private String numIdentifiantClient;
 	private int codeAgenceDeclarant;
 	@Field(name = "NINTOPER")
@@ -33,7 +33,7 @@ public class RapportOperationDevise {
 	private String NumDeclarationDouane;
 	private Date dateDeclarationDouane;
 	private float montantDeclareEnDouane;
-	private char typeIdentifiantBeneficiairePP;
+	private String typeIdentifiantBeneficiairePP;
 	private int numIdentifiantBeneficiairePP;
 	private String typeIdentifiantBeneficiairePM;
 	private int numIdentifiantBeneficiairePM;

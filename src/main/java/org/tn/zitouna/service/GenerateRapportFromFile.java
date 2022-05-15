@@ -22,52 +22,52 @@ public class GenerateRapportFromFile implements IGenerateRapportFromFile {
 		DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
 		
 		rpp.setNumeroDeclaration(Long.valueOf(line.substring(0, 7)));
-		rpp.setCodeOperation(line.charAt(9));
-		rpp.setTypeDocument(line.charAt(10));
-		rpp.setNumeroDocumentIdentification(line.substring(11, 26));
+		rpp.setCodeOperation(line.substring(10, 11));
+		rpp.setTypeDocument(line.substring(11, 12));
+		rpp.setNumeroDocumentIdentification(line.substring(12, 27));
 		
-		String dateDebutDocumentIdentification = line.substring(26, 34);
+		String dateDebutDocumentIdentification = line.substring(27, 35);
 		dateDebutDocumentIdentification = this.addChar(dateDebutDocumentIdentification, '/', 2);
 		dateDebutDocumentIdentification = this.addChar(dateDebutDocumentIdentification, '/', 5);
 		Date date = sourceFormat.parse(dateDebutDocumentIdentification);
 		rpp.setDateDebutDocumentIdentification(date);
 		
-		rpp.setLieuDelivranceDocumentIdentification(line.substring(34, 94));
+		rpp.setLieuDelivranceDocumentIdentification(line.substring(35, 95));
 		
-		String dateFinValidteDocumentIdentification = line.substring(94, 102);
+		String dateFinValidteDocumentIdentification = line.substring(95, 103);
 		dateFinValidteDocumentIdentification = this.addChar(dateFinValidteDocumentIdentification, '/', 2);
 		dateFinValidteDocumentIdentification = this.addChar(dateFinValidteDocumentIdentification, '/', 5);
 		Date dateFin = sourceFormat.parse(dateFinValidteDocumentIdentification);
 		rpp.setDateFinValiditeDocumentIdentification(dateFin);
 		
-		rpp.setNomPersonPhysique(line.substring(102, 162));
-		rpp.setPrenomPersonnePhysique(line.substring(162, 222));
-		rpp.setSexePersonnePhysique(line.charAt(222));
+		rpp.setNomPersonPhysique(line.substring(103, 163));
+		rpp.setPrenomPersonnePhysique(line.substring(163, 223));
+		rpp.setSexePersonnePhysique(line.substring(223,224));
 		
-		String dateNaissance = line.substring(223, 231);
+		String dateNaissance = line.substring(224, 232);
 		dateNaissance = this.addChar(dateNaissance, '/', 2);
 		dateNaissance = this.addChar(dateNaissance, '/', 5);
 		Date dateN = sourceFormat.parse(dateNaissance);
 		rpp.setDateNaissance(dateN);
 		
-		rpp.setLieuNaissance(line.substring(231, 291));
-		rpp.setQualitePersonne(line.substring(291, 293));
-		rpp.setNationalite(line.substring(293, 296));
-		rpp.setProfession(line.substring(296, 300));
-		rpp.setEtatCivil(line.charAt(300));
-		rpp.setSituationJuridique(Integer.valueOf(line.substring(301, 303)));
+		rpp.setLieuNaissance(line.substring(232, 292));
+		rpp.setQualitePersonne(line.substring(292, 294));
+		rpp.setNationalite(line.substring(294, 297));
+		rpp.setProfession(line.substring(297, 301));
+		rpp.setEtatCivil(line.substring(301, 302));
+		rpp.setSituationJuridique(Integer.valueOf(line.substring(302, 304)));
 		
-		String dateSituationJuridique = line.substring(303, 311);
+		String dateSituationJuridique = line.substring(304, 312);
 		dateSituationJuridique = this.addChar(dateSituationJuridique, '/', 2);
 		dateSituationJuridique = this.addChar(dateSituationJuridique, '/', 5);
 		Date dateSJ = sourceFormat.parse(dateSituationJuridique);
 		rpp.setDateSituationJuridique(dateSJ);
 		
-		rpp.setNumeroTelephone1(line.substring(311, 326));
-		rpp.setNumeroTelephone2(line.substring(326, 341));
-		rpp.setNumeroFax(line.substring(341, 356));
-		rpp.setNumeroTelex(line.substring(356, 371));
-		rpp.setAdresseEmail(line.substring(371, 401));
+		rpp.setNumeroTelephone1(line.substring(312, 327));
+		rpp.setNumeroTelephone2(line.substring(327, 342));
+		rpp.setNumeroFax(line.substring(342, 357));
+		rpp.setNumeroTelex(line.substring(357, 372));
+		rpp.setAdresseEmail(line.substring(372, 402));
 		
 		return rpp;
 	}
@@ -77,50 +77,50 @@ public class GenerateRapportFromFile implements IGenerateRapportFromFile {
 		// TODO Auto-generated method stub
 		RapportPM rpm = new RapportPM();
 		rpm.setNumeroDeclaration(Long.valueOf(line.substring(0, 7)));
-		rpm.setCodeOperation(line.charAt(9));
-		rpm.setTypeIdentifiantPersonne(line.substring(10, 12));
-		rpm.setNumeroIdentifiantPersonne(line.substring(12, 27));
-		rpm.setNumeroRegistreCommerce(line.substring(27, 40));
-		rpm.setMatriculeFiscal(line.substring(40, 50));
-		rpm.setRaisonSocialePM(line.substring(50, 140));
-		rpm.setSiglePM(line.substring(140, 170));
-		rpm.setQualitePM(line.substring(170, 172));
-		rpm.setNationalitePM(line.substring(172, 175));
-		rpm.setCodeTypePM(Integer.valueOf(line.substring(175, 177)));
-		rpm.setCodeFormeJuridique(line.substring(177, 183));
-		rpm.setCodeActivitePM(line.substring(183, 190));
-		rpm.setCodeRegime(Integer.valueOf(line.substring(190, 192)));
-		rpm.setCodeSituation(Integer.valueOf(line.substring(192, 194)));
+		rpm.setCodeOperation(line.substring(10, 11));
+		rpm.setTypeIdentifiantPersonne(line.substring(11, 13));
+		rpm.setNumeroIdentifiantPersonne(line.substring(13, 28));
+		rpm.setNumeroRegistreCommerce(line.substring(28, 41));
+		rpm.setMatriculeFiscal(line.substring(41, 51));
+		rpm.setRaisonSocialePM(line.substring(51, 141));
+		rpm.setSiglePM(line.substring(141, 171));
+		rpm.setQualitePM(line.substring(171, 173));
+		rpm.setNationalitePM(line.substring(173, 176));
+		rpm.setCodeTypePM(Integer.valueOf(line.substring(176, 178)));
+		rpm.setCodeFormeJuridique(line.substring(178, 184));
+		rpm.setCodeActivitePM(line.substring(184, 191));
+		rpm.setCodeRegime(Integer.valueOf(line.substring(191, 193)));
+		rpm.setCodeSituation(Integer.valueOf(line.substring(193, 195)));
 		DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
-		String dateSituationJuridique = line.substring(194, 201);
+		String dateSituationJuridique = line.substring(195, 202);
 		dateSituationJuridique = this.addChar(dateSituationJuridique, '/', 2);
 		dateSituationJuridique = this.addChar(dateSituationJuridique, '/', 5);
 		Date date = sourceFormat.parse(dateSituationJuridique);
 		rpm.setDateSituationJuridique(date);
-		rpm.setReferenceJortSituationJuridique(line.substring(201, 231));
-		String dateCreationPM = line.substring(231, 239);
+		rpm.setReferenceJortSituationJuridique(line.substring(202, 232));
+		String dateCreationPM = line.substring(232, 240);
 		dateCreationPM = this.addChar(dateCreationPM, '/', 2);
 		dateCreationPM = this.addChar(dateCreationPM, '/', 5);
 		Date dateC = sourceFormat.parse(dateCreationPM);
 		rpm.setCreationPM(dateC);
-		rpm.setReferenceJortPM(line.substring(239, 269));
-		String dateEntree = line.substring(269, 277);
+		rpm.setReferenceJortPM(line.substring(240, 270));
+		String dateEntree = line.substring(270, 278);
 		dateEntree = this.addChar(dateEntree, '/', 2);
 		dateEntree = this.addChar(dateEntree, '/', 5);
 		Date dateE = sourceFormat.parse(dateEntree);
 		rpm.setDateEntreExploitation(dateE);
-		rpm.setMontantCapitalPM(Integer.valueOf(line.substring(277, 289)));
-		String dateFixation = line.substring(289, 297);
+		rpm.setMontantCapitalPM(Integer.valueOf(line.substring(278, 290)));
+		String dateFixation = line.substring(290, 298);
 		dateFixation = this.addChar(dateFixation, '/', 2);
 		dateFixation = this.addChar(dateFixation, '/', 5);
 		Date dateF = sourceFormat.parse(dateFixation);
 		rpm.setDateFixationCapitalSocial(dateF);
-		rpm.setNumeroTelephone1(line.substring(297, 312));
-		rpm.setNumeroTelephone2(line.substring(312, 327));
-		rpm.setNumeroFax(line.substring(327, 342));
-		rpm.setNumeroTelex(line.substring(342, 357));
-		rpm.setAdresseEmail(line.substring(357, 387));
-		rpm.setAdresseWebPM(line.substring(387, 417));
+		rpm.setNumeroTelephone1(line.substring(298, 313));
+		rpm.setNumeroTelephone2(line.substring(313, 328));
+		rpm.setNumeroFax(line.substring(328, 343));
+		rpm.setNumeroTelex(line.substring(343, 358));
+		rpm.setAdresseEmail(line.substring(358, 388));
+		rpm.setAdresseWebPM(line.substring(388, 418));
 		return rpm;
 	}
 
@@ -130,8 +130,8 @@ public class GenerateRapportFromFile implements IGenerateRapportFromFile {
 		RapportOperationDevise rop = new RapportOperationDevise();
 		Long numDeclaration = Long.valueOf(line.substring(0, 7));
 		rop.setNumeroDeclaration(numDeclaration);
-		rop.setCodeOperation(line.charAt(9));
-		rop.setTypeIdentifiantClient(line.charAt(10));
+		rop.setCodeOperation(line.substring(9, 10));
+		rop.setTypeIdentifiantClient(line.substring(10, 11));
 		rop.setNumIdentifiantClient(line.substring(19, 34));
 		rop.setCodeAgenceDeclarant(Integer.valueOf(line.substring(34, 37)));
 		rop.setIdentifiantInterneOperation(line.substring(37, 44));

@@ -18,8 +18,8 @@ public class RapportPP {
 	@NonNull @Id
 	private Long numeroDeclaration;
 	private final int codeEnregistrement = 105;
-	private char codeOperation = 'N';
-	private char typeDocument;
+	private String codeOperation = "N";
+	private String typeDocument;
 	private String numeroDocumentIdentification;
 
 	private Date dateDebutDocumentIdentification;
@@ -29,13 +29,13 @@ public class RapportPP {
 
 	private String nomPersonPhysique;
 	private String prenomPersonnePhysique;
-	private char sexePersonnePhysique;
+	private String sexePersonnePhysique;
 	private Date dateNaissance;
 	private String lieuNaissance;
 	private String qualitePersonne;
 	private String nationalite;
 	private String profession;
-	private char etatCivil;
+	private String etatCivil;
 	private int situationJuridique;
 	private Date dateSituationJuridique;
 	private String numeroTelephone1;
