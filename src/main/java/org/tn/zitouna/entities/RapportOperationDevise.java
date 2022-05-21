@@ -46,5 +46,5 @@ public class RapportOperationDevise {
 	
 	private Fin fin;
 	@Field(name = "R")
-	private List<CodeErreurRapport> CodeErreurRapports;
+	private List<CodeErreurRapport> codeErreurRapports;
 }
