@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +20,6 @@ import org.tn.zitouna.entities.*;
 
 @Service
 public class ReponseService {
-	private RapportPPRepository rr;
 	private RapportOperationDeviseRepository rapportOperationDeviseRepository;
 	private RapportPMRepository rapportPMRepository;
 	private RapportPPRepository rapportPPRepository;
@@ -31,10 +28,9 @@ public class ReponseService {
 	private final Path root = Paths.get("uploads");
 
 	@Autowired
-	public ReponseService(RapportPPRepository rr, RapportOperationDeviseRepository rapportOperationDeviseRepository,
-			RapportPMRepository rapportPMRepository, RapportPPRepository rapportPPRepository, CodeErreurBCTRepository codeErreurBCTRepository,
-			IGenerateRapportFromFile igenerateRapportFromFile) {
-		this.rr = rr;
+	public ReponseService(RapportOperationDeviseRepository rapportOperationDeviseRepository,
+			RapportPMRepository rapportPMRepository, RapportPPRepository rapportPPRepository,
+			CodeErreurBCTRepository codeErreurBCTRepository, IGenerateRapportFromFile igenerateRapportFromFile) {
 		this.rapportOperationDeviseRepository = rapportOperationDeviseRepository;
 		this.rapportPMRepository = rapportPMRepository;
 		this.rapportPPRepository = rapportPPRepository;
@@ -56,20 +52,20 @@ public class ReponseService {
 		List<CodeErreurRapport> CodeErreurRapports = new ArrayList<CodeErreurRapport>();
 		List<CodeErreurRapport> CodeErreurRapportsEntete = new ArrayList<CodeErreurRapport>();
 		List<CodeErreurRapport> CodeErreurRapportsFin = new ArrayList<CodeErreurRapport>();
-		CodeErreurBCT codeBackup = new CodeErreurBCT("CodeNotFoundInDatabase"," le code d erreur n'existe pas ");
-		CodeErreurBCT codeBackupForNullValue = new CodeErreurBCT("pas d'erreur"," success ");
-				//codeErreurBCTRepository.findById("ENT00113").get();
+		CodeErreurBCT codeBackup = new CodeErreurBCT("CodeNotFoundInDatabase", " le code d erreur n'existe pas ");
+		CodeErreurBCT codeBackupForNullValue = new CodeErreurBCT("pas d'erreur", " success ");
+		// codeErreurBCTRepository.findById("ENT00113").get();
 		int i = 0;
 		int j = 0;
-		String ch="";
-		//ajouter le fichier dans uploads folder
+		String ch = "";
+		// ajouter le fichier dans uploads folder
 		try {
 			Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
 		} catch (Exception ee) {
 			throw new RuntimeException("Could not store the file. Error: " + ee.getMessage());
 		}
 
-		System.out.println("file path : "+root.toAbsolutePath().toString() + file.getOriginalFilename());
+		System.out.println("file path : " + root.toAbsolutePath().toString() + file.getOriginalFilename());
 		try (BufferedReader br = new BufferedReader(
 				new FileReader(root.toAbsolutePath().toString() + "\\" + file.getOriginalFilename()))) {
 			for (String line; (line = br.readLine()) != null;) {
@@ -79,16 +75,19 @@ public class ReponseService {
 				if (i == 0) {
 					if (line.lastIndexOf("R") > 0) {
 						j = cc.lastIndexOf("R");
-							//test length : if length > 1 ajoutih fi liste : ken fama erreur n'ajoutiwha sinon khali list null fi blaset ""
-						ch=cc.substring(j + 1).replaceAll(" ", "");
-						if (ch.length()>1) {
-							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", "")).orElse(codeBackup);
-							 
-							CodeErreurRapportsEntete.add(new CodeErreurRapport(c.getCodeErreur(),c.getDescription()));
-						}else {
-							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),codeBackupForNullValue.getDescription()));
+						// test length : if length > 1 ajoutih fi liste : ken fama erreur n'ajoutiwha
+						// sinon khali list null fi blaset ""
+						ch = cc.substring(j + 1).replaceAll(" ", "");
+						if (ch.length() > 1) {
+							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", ""))
+									.orElse(codeBackup);
+
+							CodeErreurRapportsEntete.add(new CodeErreurRapport(c.getCodeErreur(), c.getDescription()));
+						} else {
+							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),
+									codeBackupForNullValue.getDescription()));
 						}
-					
+
 					}
 					e = igenerateRapportFromFile.addEnteteFromFile(line);
 					e.setCodeErreurRapports(CodeErreurRapportsEntete);
@@ -99,13 +98,15 @@ public class ReponseService {
 					rop.setEntete(e);
 					if (line.lastIndexOf("R") > 0) {
 						j = cc.lastIndexOf("R");
-						ch=cc.substring(j + 1).replaceAll(" ", "");
-						
-						if (ch.length()>1) {
-							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", "")).orElse(codeBackup);
-						CodeErreurRapports.add(new CodeErreurRapport(c.getCodeErreur(),c.getDescription()));
-						}else {
-							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),codeBackupForNullValue.getDescription()));
+						ch = cc.substring(j + 1).replaceAll(" ", "");
+
+						if (ch.length() > 1) {
+							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", ""))
+									.orElse(codeBackup);
+							CodeErreurRapports.add(new CodeErreurRapport(c.getCodeErreur(), c.getDescription()));
+						} else {
+							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),
+									codeBackupForNullValue.getDescription()));
 						}
 					}
 					i += 1;
@@ -113,12 +114,14 @@ public class ReponseService {
 					f = igenerateRapportFromFile.addLigneFinFromFile(line);
 					if (line.lastIndexOf("R") > 0) {
 						j = cc.lastIndexOf("R");
-						ch=cc.substring(j + 1).replaceAll(" ", "");
-						if (ch.length()>1) {
-							 c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", "")).orElse(codeBackup);
-							CodeErreurRapportsFin.add(new CodeErreurRapport(c.getCodeErreur(),c.getDescription()));
-						}else {
-							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),codeBackupForNullValue.getDescription()));
+						ch = cc.substring(j + 1).replaceAll(" ", "");
+						if (ch.length() > 1) {
+							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", ""))
+									.orElse(codeBackup);
+							CodeErreurRapportsFin.add(new CodeErreurRapport(c.getCodeErreur(), c.getDescription()));
+						} else {
+							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),
+									codeBackupForNullValue.getDescription()));
 						}
 					}
 					f.setCodeErreurRapports(CodeErreurRapportsFin);
@@ -145,9 +148,9 @@ public class ReponseService {
 		List<CodeErreurRapport> CodeErreurRapportsEntete = new ArrayList<CodeErreurRapport>();
 		List<CodeErreurRapport> CodeErreurRapportsFin = new ArrayList<CodeErreurRapport>();
 		CodeErreurBCT c = new CodeErreurBCT();
-		CodeErreurBCT codeBackupForNullValue = new CodeErreurBCT("pas d'erreur"," success ");
-		CodeErreurBCT codeBackup = new CodeErreurBCT("CodeNotFoundInDatabase"," le code d erreur n'existe pas ");
-		String ch="";
+		CodeErreurBCT codeBackupForNullValue = new CodeErreurBCT("pas d'erreur", " success ");
+		CodeErreurBCT codeBackup = new CodeErreurBCT("CodeNotFoundInDatabase", " le code d erreur n'existe pas ");
+		String ch = "";
 		int i = 0;
 		int j = 0;
 		try {
@@ -156,7 +159,8 @@ public class ReponseService {
 			throw new RuntimeException("Could not store the file. Error: " + ee.getMessage());
 		}
 
-		try (BufferedReader br = new BufferedReader(new FileReader(root.toAbsolutePath().toString() + "\\" + file.getOriginalFilename()))) {
+		try (BufferedReader br = new BufferedReader(
+				new FileReader(root.toAbsolutePath().toString() + "\\" + file.getOriginalFilename()))) {
 			for (String line; (line = br.readLine()) != null;) {
 				// process the line.
 				String cc = line.trim();
@@ -164,12 +168,14 @@ public class ReponseService {
 				if (i == 0) {
 					if (line.lastIndexOf("R") > 0) {
 						j = cc.lastIndexOf("R");
-						ch=cc.substring(j + 1).replaceAll(" ", "");
-						if (ch.length()>1) {
-							 c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", "")).orElse(codeBackup);
-							CodeErreurRapportsFin.add(new CodeErreurRapport(c.getCodeErreur(),c.getDescription()));
-						}else {
-							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),codeBackupForNullValue.getDescription()));
+						ch = cc.substring(j + 1).replaceAll(" ", "");
+						if (ch.length() > 1) {
+							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", ""))
+									.orElse(codeBackup);
+							CodeErreurRapportsFin.add(new CodeErreurRapport(c.getCodeErreur(), c.getDescription()));
+						} else {
+							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),
+									codeBackupForNullValue.getDescription()));
 						}
 					}
 					e = igenerateRapportFromFile.addEnteteFromFile(line);
@@ -182,13 +188,15 @@ public class ReponseService {
 					rpm.setEntete(e);
 					if (line.lastIndexOf("R") > 0) {
 						j = cc.lastIndexOf("R");
-						ch=cc.substring(j + 1).replaceAll(" ", "");
-						
-						if (ch.length()>1) {
-							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", "")).orElse(codeBackup);
-						CodeErreurRapports.add(new CodeErreurRapport(c.getCodeErreur(),c.getDescription()));
-						}else {
-							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),codeBackupForNullValue.getDescription()));
+						ch = cc.substring(j + 1).replaceAll(" ", "");
+
+						if (ch.length() > 1) {
+							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", ""))
+									.orElse(codeBackup);
+							CodeErreurRapports.add(new CodeErreurRapport(c.getCodeErreur(), c.getDescription()));
+						} else {
+							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),
+									codeBackupForNullValue.getDescription()));
 						}
 					}
 					System.out.println("taille*****************" + line.length());
@@ -197,14 +205,16 @@ public class ReponseService {
 					f = igenerateRapportFromFile.addLigneFinFromFile(line);
 					if (line.lastIndexOf("R") > 0) {
 						j = cc.lastIndexOf("R");
-						ch=cc.substring(j + 1).replaceAll(" ", "");
-						if (ch.length()>1) {
-							 c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", "")).orElse(codeBackup);
-							CodeErreurRapportsFin.add(new CodeErreurRapport(c.getCodeErreur(),c.getDescription()));
-						}else {
-							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),codeBackupForNullValue.getDescription()));
+						ch = cc.substring(j + 1).replaceAll(" ", "");
+						if (ch.length() > 1) {
+							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", ""))
+									.orElse(codeBackup);
+							CodeErreurRapportsFin.add(new CodeErreurRapport(c.getCodeErreur(), c.getDescription()));
+						} else {
+							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),
+									codeBackupForNullValue.getDescription()));
 						}
-						}
+					}
 					f.setCodeErreurRapports(CodeErreurRapportsFin);
 					rpm.setFin(f);
 					CodeErreurRapportsEntete.clear();
@@ -227,10 +237,10 @@ public class ReponseService {
 		List<CodeErreurRapport> CodeErreurRapports = new ArrayList<CodeErreurRapport>();
 		List<CodeErreurRapport> CodeErreurRapportsEntete = new ArrayList<CodeErreurRapport>();
 		List<CodeErreurRapport> CodeErreurRapportsFin = new ArrayList<CodeErreurRapport>();
-		CodeErreurBCT codeBackup = new CodeErreurBCT("CodeNotFoundInDatabase"," le code d erreur n'existe pas ");
+		CodeErreurBCT codeBackup = new CodeErreurBCT("CodeNotFoundInDatabase", " le code d erreur n'existe pas ");
 		CodeErreurBCT c = new CodeErreurBCT();
-		CodeErreurBCT codeBackupForNullValue = new CodeErreurBCT("pas d'erreur"," success ");
-		String ch="";
+		CodeErreurBCT codeBackupForNullValue = new CodeErreurBCT("pas d'erreur", " success ");
+		String ch = "";
 		int i = 0;
 		int j = 0;
 		try {
@@ -239,8 +249,8 @@ public class ReponseService {
 			throw new RuntimeException("Could not store the file. Error: " + ee.getMessage());
 		}
 
-
-		try (BufferedReader br = new BufferedReader(new FileReader(root.toAbsolutePath().toString() + "\\" + file.getOriginalFilename()))) {
+		try (BufferedReader br = new BufferedReader(
+				new FileReader(root.toAbsolutePath().toString() + "\\" + file.getOriginalFilename()))) {
 
 			for (String line; (line = br.readLine()) != null;) {
 				// process the line.
@@ -249,14 +259,16 @@ public class ReponseService {
 				if (i == 0) {
 					if (line.lastIndexOf("R") > 0) {
 						j = cc.lastIndexOf("R");
-						ch=cc.substring(j + 1).replaceAll(" ", "");
-						if (ch.length()>1) {
-							 c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", "")).orElse(codeBackup);
-							CodeErreurRapportsEntete.add(new CodeErreurRapport(c.getCodeErreur(),c.getDescription()));
-						}	else {
-							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),codeBackupForNullValue.getDescription()));
-						}				
+						ch = cc.substring(j + 1).replaceAll(" ", "");
+						if (ch.length() > 1) {
+							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", ""))
+									.orElse(codeBackup);
+							CodeErreurRapportsEntete.add(new CodeErreurRapport(c.getCodeErreur(), c.getDescription()));
+						} else {
+							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),
+									codeBackupForNullValue.getDescription()));
 						}
+					}
 					e = igenerateRapportFromFile.addEnteteFromFile(line);
 					e.setCodeErreurRapports(CodeErreurRapportsEntete);
 					i += 1;
@@ -266,13 +278,15 @@ public class ReponseService {
 					rpp.setEntete(e);
 					if (line.lastIndexOf("R") > 0) {
 						j = cc.lastIndexOf("R");
-						ch=cc.substring(j + 1).replaceAll(" ", "");
-						
-						if (ch.length()>1) {
-							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", "")).orElse(codeBackup);
-						CodeErreurRapports.add(new CodeErreurRapport(c.getCodeErreur(),c.getDescription()));
-						}else {
-							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),codeBackupForNullValue.getDescription()));
+						ch = cc.substring(j + 1).replaceAll(" ", "");
+
+						if (ch.length() > 1) {
+							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", ""))
+									.orElse(codeBackup);
+							CodeErreurRapports.add(new CodeErreurRapport(c.getCodeErreur(), c.getDescription()));
+						} else {
+							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),
+									codeBackupForNullValue.getDescription()));
 						}
 					}
 					i += 1;
@@ -280,13 +294,15 @@ public class ReponseService {
 					f = igenerateRapportFromFile.addLigneFinFromFile(line);
 					if (line.lastIndexOf("R") > 0) {
 						j = cc.lastIndexOf("R");
-						if (ch.length()>1) {
-							 c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", "")).orElse(codeBackup);
-							CodeErreurRapportsFin.add(new CodeErreurRapport(c.getCodeErreur(),c.getDescription()));
-						}else {
-							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),codeBackupForNullValue.getDescription()));
+						if (ch.length() > 1) {
+							c = codeErreurBCTRepository.findById(cc.substring(j + 1).replaceAll(" ", ""))
+									.orElse(codeBackup);
+							CodeErreurRapportsFin.add(new CodeErreurRapport(c.getCodeErreur(), c.getDescription()));
+						} else {
+							CodeErreurRapportsEntete.add(new CodeErreurRapport(codeBackupForNullValue.getCodeErreur(),
+									codeBackupForNullValue.getDescription()));
 						}
-						}
+					}
 					f.setCodeErreurRapports(CodeErreurRapportsFin);
 					rpp.setFin(f);
 					rpp.setCodeErreurRapports(CodeErreurRapports);
