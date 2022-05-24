@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +18,7 @@ import org.tn.zitouna.entities.*;
 import org.tn.zitouna.service.CodeErreurBCTService;
 import org.tn.zitouna.service.RapportRejetService;
 import org.tn.zitouna.service.ReponseService;
+
 
 @RestController
 @RequestMapping("/rejets")
@@ -32,13 +36,41 @@ public class ReponseController {
 		this.rapportRejetService = rapportRejetService;
 		this.codeErreurBCTService = codeErreurBCTService;
 	}
+	// *****************************************************************************************************
 
-	@GetMapping("/codeErreur")
-	public List<CodeErreurBCT> addCodeErreur() throws Exception {
+	@PostMapping("/injectCodeErreur")
+	public List<CodeErreurBCT> addCodeErreurFromFile(@RequestParam MultipartFile file) throws Exception {
 
-		return codeErreurBCTService.generateCodeErreurBCTFromFile();
+		return codeErreurBCTService.generateCodeErreurBCTFromFile(file);
 	}
 
+	@GetMapping("/CodeErreurs")
+	public List<CodeErreurBCT> getCodeErreurd() throws Exception {
+
+		return codeErreurBCTService.getallCodeErreursBCT();
+	}
+
+	@GetMapping("/CodeErreurs/{codeErreur}")
+	public CodeErreurBCT getCodeErreurByID(@PathVariable String codeErreur) {
+		return codeErreurBCTService.getCodeErreurBCTByID(codeErreur);
+	}
+
+	@PostMapping("/CodeErreurs")
+	public CodeErreurBCT addCodeErreur(@RequestBody CodeErreurBCT codeErreurBCT) {
+		return codeErreurBCTService.ajouterCodeErreur(codeErreurBCT);
+	}
+
+	@PutMapping("/CodeErreurs")
+	public CodeErreurBCT updateCodeErreur(@RequestBody CodeErreurBCT codeErreurBCT) {
+		return codeErreurBCTService.modifierCodeErreur(codeErreurBCT);
+	}
+
+	@DeleteMapping("/CodeErreurs/{codeErreur}")
+	public void deleteCodeErreurByID(@PathVariable String codeErreur) {
+		codeErreurBCTService.supprimerCodeErreur(codeErreur);
+	}
+
+	// *****************************************************************************************************
 	@GetMapping("/deleteFiles")
 	public String test() {
 		reponseService.deleteAll();
