@@ -16,6 +16,7 @@ import org.tn.zitouna.dao.CodeErreurBCTRepository;
 import org.tn.zitouna.dao.RapportOperationDeviseRepository;
 import org.tn.zitouna.dao.RapportPMRepository;
 import org.tn.zitouna.dao.RapportPPRepository;
+import org.tn.zitouna.dto.StatistiqueDTO;
 import org.tn.zitouna.entities.*;
 
 @Service
@@ -37,6 +38,14 @@ public class ReponseService {
 		this.igenerateRapportFromFile = igenerateRapportFromFile;
 		this.codeErreurBCTRepository = codeErreurBCTRepository;
 
+	}
+	
+	public StatistiqueDTO stats() {
+		StatistiqueDTO stats = new StatistiqueDTO();
+		stats.setNbrRejetOD(rapportOperationDeviseRepository.count());
+		stats.setNbrRejetPM(rapportPMRepository.count());
+		stats.setNbrRejetPP(rapportPPRepository.count());
+		return stats;
 	}
 
 	// delete files from folder => delete folder

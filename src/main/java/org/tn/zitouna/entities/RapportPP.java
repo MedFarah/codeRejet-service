@@ -17,7 +17,7 @@ public class RapportPP {
 	private Entete entete;
 	@NonNull @Id
 	private Long numeroDeclaration;
-	private final int codeEnregistrement = 105;
+	private  int codeEnregistrement = 105;
 	private String codeOperation = "N";
 	private String typeDocument;
 	private String numeroDocumentIdentification;

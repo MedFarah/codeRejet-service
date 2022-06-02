@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.tn.zitouna.dto.StatistiqueDTO;
 import org.tn.zitouna.entities.*;
 import org.tn.zitouna.service.CodeErreurBCTService;
 import org.tn.zitouna.service.RapportRejetService;
@@ -35,6 +36,11 @@ public class ReponseController {
 		this.reponseService = reponseService;
 		this.rapportRejetService = rapportRejetService;
 		this.codeErreurBCTService = codeErreurBCTService;
+	}
+	
+	@GetMapping("/stats")
+	public StatistiqueDTO statisc() {
+	return reponseService.stats();	
 	}
 	// *****************************************************************************************************
 
