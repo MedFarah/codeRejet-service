@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.tn.zitouna.dao.ArchiveRapportODRepository;
 import org.tn.zitouna.dao.CodeErreurBCTRepository;
 import org.tn.zitouna.dao.RapportOperationDeviseRepository;
 import org.tn.zitouna.dao.RapportPMRepository;
@@ -26,6 +27,7 @@ public class ReponseService {
 	private RapportPPRepository rapportPPRepository;
 	private IGenerateRapportFromFile igenerateRapportFromFile;
 	private CodeErreurBCTRepository codeErreurBCTRepository;
+
 	private final Path root = Paths.get("uploads");
 
 	@Autowired
@@ -47,7 +49,8 @@ public class ReponseService {
 		stats.setNbrRejetPP(rapportPPRepository.count());
 		return stats;
 	}
-
+	
+	
 	// delete files from folder => delete folder
 	public void deleteAll() {
 		FileSystemUtils.deleteRecursively(root.toFile());

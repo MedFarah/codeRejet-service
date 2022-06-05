@@ -1,21 +1,23 @@
 package org.tn.zitouna.entities;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.mongodb.lang.NonNull;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.*;
-
 @Data @NoArgsConstructor
-@Document(collection = "rapport_personne_physique_rejet")
-public class RapportPP {
+@Document
+public class ArchiveRapportPP {
+
+	@Id
+	private String id;
+	private Date dateArchive;
 	private Entete entete;
-	@NonNull @Id
 	private Long numeroDeclaration;
 	private  int codeEnregistrement = 105;
 	private String codeOperation = "N";

@@ -7,15 +7,16 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.mongodb.lang.NonNull;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor
-@Document(collection = "rapport_operation_devise_rejet")
-public class RapportOperationDevise {
+@Document
+public class ArchiveRapportOD {
+	@Id
+	private String id;
+	private Date dateArchive;
 	private Entete entete;
-	@NonNull @Id
 	private Long numeroDeclaration;
 	private  int codeEnregistrement = 910;
 	private String codeOperation ;
