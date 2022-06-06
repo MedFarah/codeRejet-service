@@ -23,7 +23,6 @@ import org.tn.zitouna.service.ReponseService;
 
 @RestController
 @RequestMapping("/rejets")
-@CrossOrigin("*")
 public class ReponseController {
 
 	private ReponseService reponseService;

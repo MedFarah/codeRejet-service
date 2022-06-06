@@ -15,7 +15,6 @@ import org.tn.zitouna.service.ArchiveService;
 import org.tn.zitouna.entities.*;
 
 @RestController
-@CrossOrigin("*")
 public class ArchiveRestController {
 	private ArchiveService archiveService;
 
