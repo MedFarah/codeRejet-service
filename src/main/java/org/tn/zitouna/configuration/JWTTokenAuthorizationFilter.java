@@ -32,7 +32,7 @@ public class JWTTokenAuthorizationFilter extends OncePerRequestFilter{
 		response.setHeader("Access-Control-Allow-Headers", "Origin, Accept, X-Requested-with, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,Authorization");
 		response.addHeader("Access-Control-Expose-Headers", "Access-Control-Allow-Origin, Access-Control-Request-Method, Access-Control-Allow-Origin,Access-Control-Allow-Credentials, Authorization");
 	
-		if(request.getMethod().equalsIgnoreCase("OPTIONS")) {
+		if(request.getMethod().equalsIgnoreCase("OPTIONS") || request.getRequestURI().contains("/actuator")) {
 			response.setStatus(HttpStatus.OK.value());
 		}else {
 			
